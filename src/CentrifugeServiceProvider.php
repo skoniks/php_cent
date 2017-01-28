@@ -15,10 +15,7 @@ class CentrifugeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        $this->publishes([__DIR__.'/../config/centrifuge.php' => config_path('centrifuge.php'),]);
-    }
+    public function boot(){}
 
     /**
      * Register the application services.
