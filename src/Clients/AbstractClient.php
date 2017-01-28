@@ -6,12 +6,6 @@ use SKONIKS\Centrifuge\Contracts\Centrifuge;
 
 abstract class AbstractClient implements Centrifuge
 {
-    /**
-     * @param $channel
-     * @param $data
-     * @param null|string $client
-     * @return mixed
-     */
     public function publish($channel, $data, $client = null)
     {
         $params = [
@@ -21,12 +15,6 @@ abstract class AbstractClient implements Centrifuge
         $isClient = empty($client) ? [] : ['client' => $client];
         return $this->send('publish', array_merge($params, $isClient));
     }
-
-    /**
-     * @param string $channel
-     * @param string $user
-     * @return mixed
-     */
     public function unsubscribe($channel, $user)
     {
         return $this->send('unsubscribe', [
@@ -34,44 +22,31 @@ abstract class AbstractClient implements Centrifuge
             'user' => $user,
         ]);
     }
-
-    /**
-     * @param string $user
-     * @return mixed
-     */
     public function disconnect($user)
     {
         return $this->send('disconnect', [
             'user' => $user,
         ]);
     }
-
-    /**
-     * @param string $channel
-     * @return mixed
-     */
     public function presence($channel)
     {
         return $this->send('presence', [
             'channel' => $channel,
         ]);
     }
-
-    /**
-     * @param string $channel
-     * @return mixed
-     */
     public function history($channel)
     {
         return $this->send('history', [
             'channel' => $channel,
         ]);
     }
-
-    /**
-     * @param string $method
-     * @param array $params
-     * @return mixed
-     */
+    public function generateToken($userId, $timestamp, $info = '')
+    {
+        $ctx = hash_init('sha256', HASH_HMAC, config('centrifuge.secret'));
+        hash_update($ctx, $userId);
+        hash_update($ctx, $timestamp);
+        hash_update($ctx, $info);
+        return hash_final($ctx);
+    }
     abstract protected function send($method, $params);
 }
