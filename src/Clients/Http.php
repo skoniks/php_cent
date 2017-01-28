@@ -10,12 +10,9 @@ class Http extends AbstractClient
 {
     protected $client;
 
-    protected $config;
-
-    function __construct(Client $client, $config)
+    function __construct(Client $client)
     {
         $this->client = $client;
-        $this->config = $config;
     }
 
     /**
@@ -52,7 +49,7 @@ class Http extends AbstractClient
      */
     protected function generateSign($jsonData)
     {
-        $ctx = hash_init('sha256', HASH_HMAC, $this->config->get('centrifuge.secret'));
+        $ctx = hash_init('sha256', HASH_HMAC, config('centrifuge.secret'));
         hash_update($ctx, $jsonData);
         return hash_final($ctx);
     }

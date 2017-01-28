@@ -24,15 +24,13 @@ class CentrifugeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/centrifuge.php', 'centrifuge');
         $this->app->singleton(Centrifuge::class, function ($app) {
-            $config = $app->make('config');
-            if($config->get('centrifuge.transport') == 'redis') {
-                $client = $app->make('redis')->connection($config->get('centrifuge.redisConnection'));
-                return new Redis($client,$config->get('centrifuge.driver'));
+            if(config('centrifuge.transport') == 'redis') {
+                $client = $app->make('redis')->connection(config('centrifuge.redisConnection'));
+                return new Redis($client, config('centrifuge.driver'));
             } else {
-                $client = new Client(['base_uri' => $config->get('centrifuge.baseUrl')]);
-                return new Http($client, $config);
+                $client = new Client(['base_uri' => config('centrifuge.baseUrl')]);
+                return new Http($client);
             }
         });
     }

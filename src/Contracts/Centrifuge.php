@@ -37,4 +37,15 @@ interface Centrifuge
      * @return mixed
      */
     public function history($channel);
+    
+    public function generateToken($userId, $timestamp, $info = '')
+    {
+        $ctx = hash_init('sha256', HASH_HMAC, config('centrifuge.secret'));
+        hash_update($ctx, $userId);
+        hash_update($ctx, $timestamp);
+        hash_update($ctx, $info);
+
+        return hash_final($ctx);
+    }
+    
 }
