@@ -1,0 +1,23 @@
+{
+    "name": "skoniks/php_cent",
+    "description": "Centrifuge (Centrifugo) PHP Server API implementation for Laravel 5",
+    "keywords": ["laravel", "centrifuge", "centrifugo", "php"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "skoniks",
+            "email": "skolya16@ya.ru"
+        }
+    ],
+    "require": {
+        "illuminate/container": "^5.1",
+        "illuminate/support": "^5.1",
+        "predis/predis": "^1.0",
+        "guzzlehttp/guzzle": "6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SKONIKS\\Centrifuge\\": "src/"
+        }
+    }
+}
