@@ -1,33 +1,24 @@
 <?php
 
-namespace SKONIKS\Centrifuge\Clients;
+namespace SKONIKS\Centrifuge\Transport;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use SKONIKS\Centrifuge\Exceptions\HttpException;
 
-class Http extends AbstractClient
+class CHttp
 {
     protected $client;
-
     function __construct(Client $client)
     {
         $this->client = $client;
     }
-
-    /**
-     * @param $method
-     * @param $params
-     * @return mixed
-     * @throws \SKONIKS\Centrifuge\Exceptions\HttpException
-     */
-    protected function send($method, $params)
+    public function send($method, $params)
     {
         $json = json_encode([
             'method' => $method,
             'params' => $params
         ]);
-
         try {
             $response = $this->client->post('', [
                 'form_params' => [
@@ -42,11 +33,6 @@ class Http extends AbstractClient
 
         return $finally;
     }
-
-    /**
-     * @param string $jsonData
-     * @return string
-     */
     protected function generateSign($jsonData)
     {
         $ctx = hash_init('sha256', HASH_HMAC, config('centrifuge.secret'));

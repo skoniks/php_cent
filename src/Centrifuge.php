@@ -1,19 +1,21 @@
 <?php
 
-namespace SKONIKS\Centrifuge\Clients;
+namespace SKONIKS\Centrifuge;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Redis;
+use SKONIKS\Centrifuge\Transport\CHttp;
+use SKONIKS\Centrifuge\Transport\CRedis;
+use SKONIKS\Centrifuge\Centrifuge;
 
-use SKONIKS\Centrifuge\Contracts\Centrifuge;
-
-abstract class AbstractClient implements Centrifuge
+class Centrifuge
 {
-    public function publish($channel, $data, $client = null)
+    public function publish($channel, $data)
     {
         $params = [
             'channel' => $channel,
             'data' => $data,
         ];
-        $isClient = empty($client) ? [] : ['client' => $client];
-        return $this->send('publish', array_merge($params, $isClient));
+        return $this->send('publish', $params);
     }
     public function unsubscribe($channel, $user)
     {
@@ -48,5 +50,18 @@ abstract class AbstractClient implements Centrifuge
         hash_update($ctx, $info);
         return hash_final($ctx);
     }
-    abstract protected function send($method, $params);
+    protected function getTransport(){
+        if(config('centrifuge.transport') == 'redis') {
+            $client = Redis::connection(config('centrifuge.redisConnection'));
+            return new CRedis($client, config('centrifuge.driver'));
+        } else {
+            $client = new Client(['base_uri' => config('centrifuge.baseUrl')]);
+            return new CHttp($client);
+        }
+    }
+    protected function send($method, $params){
+        $transport = $this->getTransport();
+        $response = $transport->send($method, $params);
+        return $response;
+    }
 }
