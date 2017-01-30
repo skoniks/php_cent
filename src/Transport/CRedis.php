@@ -17,7 +17,7 @@ class CRedis
     }
     public function send($method, $params)
     {
-        $json = json_encode(['data' => ['method' => $method,'params' => $params]]);
+        $json = json_encode(['method' => $method,'params' => $params]);
         try {
             $result = $this->client->rpush($this->driver . '.api', $json);
         } catch (PredisException $e) {

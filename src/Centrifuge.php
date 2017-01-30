@@ -9,6 +9,7 @@ use SKONIKS\Centrifuge\Centrifuge;
 
 class Centrifuge
 {
+    protected $rmethods = ['publish', 'broadcast', 'unsubscribe', 'disconnect'];
     public function publish($channel, $data)
     {
         $params = [
@@ -50,8 +51,8 @@ class Centrifuge
         hash_update($ctx, $info);
         return hash_final($ctx);
     }
-    protected function getTransport(){
-        if(config('centrifuge.transport') == 'redis') {
+    protected function getTransport($method){
+        if(config('centrifuge.transport') == 'redis' && in_array($method, $this->rmethods)) {
             $client = Redis::connection(config('centrifuge.redisConnection'));
             return new CRedis($client, config('centrifuge.driver'));
         } else {
@@ -60,7 +61,7 @@ class Centrifuge
         }
     }
     protected function send($method, $params){
-        $transport = $this->getTransport();
+        $transport = $this->getTransport($method);
         $response = $transport->send($method, $params);
         return $response;
     }
