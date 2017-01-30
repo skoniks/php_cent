@@ -19,7 +19,7 @@ Centrifuge (Centrifugo) [1.6+] PHP Server REDIS & HTTP API implementation for La
 
 ```
 
-## Provider additions `config/app.php`
+## Alias additions `config/app.php`
 ```php
     'aliases' => [
         ...
@@ -85,7 +85,7 @@ class Controller
         $response = $Centrifuge->disconnect($userId);
         $response = $Centrifuge->presence($channle);
         $response = $Centrifuge->history($channle);
-        $response = $Centrifuge->generateClientToken($user, $timestamp, $info);
+        $response = $Centrifuge->generateToken($user, $timestamp, $info);
         
         // You can create a controller to bild your own interface;
     }
