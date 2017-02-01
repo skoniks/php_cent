@@ -59,6 +59,10 @@ To set redis as transport :
 * 'unsubscribe' 
 * 'disconnect'
 
+>Redis dont provides this methods:
+* presence
+* history
+
 ## [Module usage || sending your requests] example
 ```php
 <?php
