@@ -1,12 +1,12 @@
 # skoniks / php_cent
-Centrifuge (Centrifugo) [1.6+] PHP Server REDIS & HTTP API implementation for Laravel 5+
+Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for Laravel 5+
 
 ## Base Installation
 1. Run `composer require skoniks/php_cent` & `composer update`
-2. Create `config/centrifuge.php` as provided below
+2. Create `config/centrifugo.php` as provided below
 3. Add alias in `config/app.php` as provided below
 
-## Config example `config/centrifuge.php`
+## Config example `config/centrifugo.php`
 ```php
 <?php
     return [
@@ -23,7 +23,7 @@ Centrifuge (Centrifugo) [1.6+] PHP Server REDIS & HTTP API implementation for La
 ```php
     'aliases' => [
         ...
-        'Centrifuge'=> SKONIKS\Centrifuge\Centrifuge::class,
+        'Centrifugo'=> SKONIKS\Centrifugo\Centrifugo::class,
     ]
     
 ```
@@ -33,7 +33,7 @@ Centrifuge (Centrifugo) [1.6+] PHP Server REDIS & HTTP API implementation for La
 To set redis as transport :
 
 1. Add your redis connections add your connection to `config/database.php` as provided below
-2. Change `config/centrifuge.php` to redis settings
+2. Change `config/centrifugo.php` to redis settings
 
 ## Adding redis connection `config/database.php`
 ```php
@@ -62,30 +62,30 @@ To set redis as transport :
 ## [Module usage || sending your requests] example
 ```php
 <?php
-use Centrifuge;
+use Centrifugo;
 
 class Controller
 {
     public function your_func()
     {
-        // declare centrifuge
-        $Centrifuge = new Centrifuge();
+        // declare Centrifugo
+        $Centrifugo = new Centrifugo();
 
         // generating token example
         $current_time = time();
         $steamid = '76561198073063637'
-        $token = $Centrifuge->generateToken($steamid, $current_time, '');
+        $token = $Centrifugo->generateToken($steamid, $current_time, '');
         // publishing example
-        $Centrifuge->publish("channel" , ["yout text or even what rou want"]);
+        $Centrifugo->publish("channel" , ["yout text or even what rou want"]);
         
         // each method returns its response; 
         // list of awailible methods: 
-        $response = $Centrifuge->publish($channle, $messageData);
-        $response = $Centrifuge->unsubscribe($channle, $userId);
-        $response = $Centrifuge->disconnect($userId);
-        $response = $Centrifuge->presence($channle);
-        $response = $Centrifuge->history($channle);
-        $response = $Centrifuge->generateToken($user, $timestamp, $info);
+        $response = $Centrifugo->publish($channle, $messageData);
+        $response = $Centrifugo->unsubscribe($channle, $userId);
+        $response = $Centrifugo->disconnect($userId);
+        $response = $Centrifugo->presence($channle);
+        $response = $Centrifugo->history($channle);
+        $response = $Centrifugo->generateToken($user, $timestamp, $info);
         
         // You can create a controller to bild your own interface;
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace SKONIKS\Centrifuge\Transport;
+namespace SKONIKS\Centrifugo\Transport;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use SKONIKS\Centrifuge\Exceptions\HttpException;
+use SKONIKS\Centrifugo\Exceptions\HttpException;
 
 class CHttp
 {
@@ -35,7 +35,7 @@ class CHttp
     }
     protected function generateSign($jsonData)
     {
-        $ctx = hash_init('sha256', HASH_HMAC, config('centrifuge.secret'));
+        $ctx = hash_init('sha256', HASH_HMAC, config('centrifugo.secret'));
         hash_update($ctx, $jsonData);
         return hash_final($ctx);
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace SKONIKS\Centrifuge;
+namespace SKONIKS\Centrifugo;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Redis;
-use SKONIKS\Centrifuge\Transport\CHttp;
-use SKONIKS\Centrifuge\Transport\CRedis;
-use SKONIKS\Centrifuge\Centrifuge;
+use SKONIKS\Centrifugo\Transport\CHttp;
+use SKONIKS\Centrifugo\Transport\CRedis;
+use SKONIKS\Centrifugo\Centrifugo;
 
-class Centrifuge
+class Centrifugo
 {
     protected $rmethods = ['publish', 'broadcast', 'unsubscribe', 'disconnect'];
     public function publish($channel, $data)
@@ -45,18 +45,18 @@ class Centrifuge
     }
     public function generateToken($userId, $timestamp, $info = '')
     {
-        $ctx = hash_init('sha256', HASH_HMAC, config('centrifuge.secret'));
+        $ctx = hash_init('sha256', HASH_HMAC, config('centrifugo.secret'));
         hash_update($ctx, $userId);
         hash_update($ctx, $timestamp);
         hash_update($ctx, $info);
         return hash_final($ctx);
     }
     protected function getTransport($method){
-        if(config('centrifuge.transport') == 'redis' && in_array($method, $this->rmethods)) {
-            $client = Redis::connection(config('centrifuge.redisConnection'));
-            return new CRedis($client, config('centrifuge.driver'));
+        if(config('centrifugo.transport') == 'redis' && in_array($method, $this->rmethods)) {
+            $client = Redis::connection(config('centrifugo.redisConnection'));
+            return new CRedis($client, config('centrifugo.driver'));
         } else {
-            $client = new Client(['base_uri' => config('centrifuge.baseUrl')]);
+            $client = new Client(['base_uri' => config('centrifugo.baseUrl')]);
             return new CHttp($client);
         }
     }

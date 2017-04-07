@@ -1,8 +1,8 @@
 <?php
 
-namespace SKONIKS\Centrifuge\Exceptions;
+namespace SKONIKS\Centrifugo\Exceptions;
 
-class HttpException extends CentrifugeException
+class HttpException extends CentrifugoException
 {
 
 }

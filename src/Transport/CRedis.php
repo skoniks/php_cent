@@ -1,8 +1,8 @@
 <?php
 
-namespace SKONIKS\Centrifuge\Transport;
+namespace SKONIKS\Centrifugo\Transport;
 
-use SKONIKS\Centrifuge\Exceptions\RedisException;
+use SKONIKS\Centrifugo\Exceptions\RedisException;
 use Predis\ClientInterface;
 use Predis\PredisException;
 
@@ -10,7 +10,7 @@ class CRedis
 {
     protected $client;
     protected $driver;
-    function __construct(ClientInterface $client, $driver = 'centrifuge')
+    function __construct(ClientInterface $client, $driver = 'centrifugo')
     {
         $this->client = $client;
         $this->driver = $driver;

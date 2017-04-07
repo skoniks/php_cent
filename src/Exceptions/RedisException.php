@@ -1,8 +1,8 @@
 <?php
 
-namespace SKONIKS\Centrifuge\Exceptions;
+namespace SKONIKS\Centrifugo\Exceptions;
 
-class RedisException extends CentrifugeException
+class RedisException extends CentrifugoException
 {
 
 }
