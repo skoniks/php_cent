@@ -14,7 +14,7 @@ class Centrifugo
         return $this->send('publish', [
             'channel' => $channel,
             'data' => $data,
-        ];);
+        ]);
     }
     public function unsubscribe($channel, $user)
     {
