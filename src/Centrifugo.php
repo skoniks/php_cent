@@ -1,22 +1,20 @@
 <?php
-
 namespace SKONIKS\Centrifugo;
+
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Redis;
 use SKONIKS\Centrifugo\Transport\CHttp;
 use SKONIKS\Centrifugo\Transport\CRedis;
-use SKONIKS\Centrifugo\Centrifugo;
 
 class Centrifugo
 {
     protected $rmethods = ['publish', 'broadcast', 'unsubscribe', 'disconnect'];
     public function publish($channel, $data)
     {
-        $params = [
+        return $this->send('publish', [
             'channel' => $channel,
             'data' => $data,
-        ];
-        return $this->send('publish', $params);
+        ];);
     }
     public function unsubscribe($channel, $user)
     {

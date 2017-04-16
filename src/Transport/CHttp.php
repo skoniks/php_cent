@@ -30,7 +30,6 @@ class CHttp
         } catch (ClientException $e) {
             throw new HttpException($e->getMessage(), $e->getCode(), $e);
         }
-
         return $finally;
     }
     protected function generateSign($jsonData)
