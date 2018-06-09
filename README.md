@@ -6,6 +6,8 @@ Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for La
 2. Create `config/centrifugo.php` as provided below
 3. Add alias in `config/app.php` as provided below
 
+>For laravel 5.5+ use version >= "2.5"
+
 ## Config example `config/centrifugo.php`
 ```php
 <?php
@@ -29,8 +31,7 @@ Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for La
 ```
 
 ## Setting redis as transport
->Read notes about redis transport provided methods below
-To set redis as transport :
+>Read notes about redis transport provided methods below. To set redis as transport :
 
 1. Add your redis connections add your connection to `config/database.php` as provided below
 2. Change `config/centrifugo.php` to redis settings

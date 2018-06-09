@@ -51,7 +51,7 @@ class Centrifugo
     }
     protected function getTransport($method){
         if(config('centrifugo.transport') == 'redis' && in_array($method, $this->rmethods)) {
-            $client = Redis::connection(config('centrifugo.redisConnection'));
+            $client = Redis::connection(config('centrifugo.redisConnection'))->client();
             return new CRedis($client, config('centrifugo.driver'));
         } else {
             $client = new Client(['base_uri' => config('centrifugo.baseUrl')]);
