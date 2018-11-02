@@ -1,6 +1,6 @@
 {
     "name": "skoniks/php_cent",
-    "description": "Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for Laravel 5+",
+    "description": "Centrifugo (Centrifuge) [1.0+] PHP Server REDIS & HTTP API implementation for Laravel 5+",
     "keywords": ["laravel", "centrifuge", "centrifugo", "php"],
     "license": "MIT",
     "authors": [
@@ -10,10 +10,7 @@
         }
     ],
     "require": {
-        "illuminate/container": "5.5.*",
-        "illuminate/support": "5.5.*",
-        "predis/predis": "^1.1",
-        "guzzlehttp/guzzle": "6.*"
+        "illuminate/container": "5.*",
     },
     "autoload": {
         "psr-4": {

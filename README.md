@@ -1,6 +1,6 @@
 # skoniks / php_cent
-Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for Laravel 5+
-
+Centrifugo (Centrifuge) [1.0+] PHP Server REDIS & HTTP API implementation for Laravel 5+
+Incompatible with Centrifugo [2.0+], will be updated later!
 ## Base Installation
 1. Run `composer require skoniks/php_cent` & `composer update`
 2. Create `config/centrifugo.php` as provided below
@@ -9,17 +9,7 @@ Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for La
 >For laravel 5.5+ use version >= "2.5"
 
 ## Config example `config/centrifugo.php`
-```php
-<?php
-    return [
-        'driver'          => 'centrifugo', // redis channel name as provided in cent. conf ($driver.".api")
-        'transport'       => 'http', // http || redis connection, check more information below
-        'redisConnection' => 'centrifugo', // only for redis, name of connection more information below
-        'baseUrl'         => 'http://localhost:8000/api/', // full api url
-        'secret'          => 'shlasahaposaheisasalssushku', // you super secret key
-    ];
-
-```
+[centrifugo.php](https://github.com/skoniks/php_cent/blob/master/centrifugo.php)
 
 ## Alias additions `config/app.php`
 ```php
@@ -31,26 +21,24 @@ Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for La
 ```
 
 ## Setting redis as transport
->Read notes about redis transport provided methods below. To set redis as transport :
-
-1. Add your redis connections add your connection to `config/database.php` as provided below
+1. Add your redis connection to `config/database.php`
 2. Change `config/centrifugo.php` to redis settings
 
 ## Adding redis connection `config/database.php`
 ```php
- 'redis' => [
+...
+    'redis' => [
         ...
         'centrifugo' => [
-            'scheme' => 'tcp',      // unix
-            'host' => '127.0.0.1',  // null for unix
-            'path' => '',           // or unix path
+            'scheme' => 'tcp',
+            'host' => '127.0.0.1',
             'password' => '',
-            'port' => 6379,         // null for unix
-            'database' => 1,        // cent. db like in cent. configs
+            'port' => 6379,
+            'database' => 1,
         ],
     ],
+...
 ```
-
 
 ## Redis supported transport
 >Make shure that **HTTP connection must work independently from redis connection**.
@@ -60,39 +48,42 @@ Centrifugo (Centrifuge) [1.6+] PHP Server REDIS & HTTP API implementation for La
 * 'unsubscribe' 
 * 'disconnect'
 
->Redis dont provides this methods:
+>Redis dont provide this methods:
 * presence
 * history
+* channels
+* stats
+* node
 
 ## [Module usage || sending your requests] example
 ```php
 <?php
 use Centrifugo;
-
-class Controller
-{
-    public function your_func()
-    {
+class Controller {
+    public function _function(){
         // declare Centrifugo
-        $Centrifugo = new Centrifugo();
+        $centrifugo = new Centrifugo();
 
         // generating token example
         $current_time = time();
-        $steamid = '76561198073063637'
-        $token = $Centrifugo->generateToken($steamid, $current_time, '');
+        $user_id = '1234567890';
+        $token = Centrifugo::token($user_id, $current_time, 'custom info');
+                                
         // publishing example
-        $Centrifugo->publish("channel" , ["yout text or even what rou want"]);
+        $centrifugo->publish("channel" , ["custom data"]);
         
-        // each method returns its response; 
         // list of awailible methods: 
-        $response = $Centrifugo->publish($channle, $messageData);
-        $response = $Centrifugo->unsubscribe($channle, $userId);
-        $response = $Centrifugo->disconnect($userId);
-        $response = $Centrifugo->presence($channle);
-        $response = $Centrifugo->history($channle);
-        $response = $Centrifugo->generateToken($user, $timestamp, $info);
-        
-        // You can create a controller to bild your own interface;
+        $response = $centrifugo->publish($channel, $data);
+        $response = $centrifugo->unsubscribe($channel, $user_id);
+        $response = $centrifugo->disconnect($user_id);
+        $response = $centrifugo->presence($channel);
+        $response = $centrifugo->history($channel);
+        $response = $centrifugo->channels();
+        $response = $centrifugo->stats();
+        $response = $centrifugo->node();
+        $token = Centrifugo::token($user_id, $timestamp, $info);
+                                
+        // $response == false | when error
     }
 ```
-### For more informations go [here](https://fzambia.gitbooks.io/centrifugal/content/)
+### For more information go [here](https://fzambia.gitbooks.io/centrifugal/content/)
