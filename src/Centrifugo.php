@@ -13,7 +13,7 @@ class Centrifugo {
             'data' => $data,
         ]);
     }
-    public function broadcast((array)$channels, $data){
+    public function broadcast($channels, $data){
         return $this->send('broadcast', [
             'channels' => $channels,
             'data' => $data,

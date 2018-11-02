@@ -30,7 +30,6 @@ Incompatible with Centrifugo [2.0+], will be updated later!
     'redis' => [
         ...
         'centrifugo' => [
-            'scheme' => 'tcp',
             'host' => '127.0.0.1',
             'password' => '',
             'port' => 6379,

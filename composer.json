@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "illuminate/container": "5.*"
+        "illuminate/container": "*",
+        "predis/predis": "*"
     },
     "autoload": {
         "psr-4": {
